@@ -1,0 +1,1 @@
+spark-submit --master spark://INMAA1-M0003.mcint.local:7077 --class com.camcast.melt.main.AvroCombiner build/libs/sparkavrocombine-1.0-SNAPSHOT.jar

@@ -1,0 +1,431 @@
+{
+  "type" : "record",
+  "name" : "DVRSchedulerEvent",
+  "namespace" : "headwaters.watermark.dvr",
+  "doc" : "Record for DVR Scheduler that Contains the identifier for DVC_031.",
+  "fields" : [ {
+    "name" : "header",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "Header",
+      "namespace" : "core",
+      "doc" : "Common information related to the event which must be included in any clean event. It allows some common processing at the system level, and some consistency for processing events.",
+      "fields" : [ {
+        "name" : "timestamp",
+        "type" : [ "null", "long" ],
+        "doc" : "The UTC time stamp in milliseconds since Unix epoch (January 1, 1970 midnight) when the event is generated.",
+        "default" : null
+      }, {
+        "name" : "uuid",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Unique identifier for the event used for de-duplication and tracing.",
+        "default" : null
+      }, {
+        "name" : "hostname",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Fully qualified name of the host that generated the event that generated the data.",
+        "default" : null
+      }, {
+        "name" : "money",
+        "type" : [ "null", {
+          "type" : "record",
+          "name" : "Money",
+          "doc" : "Money trace information. Encapsulates the money identifiers and additional keys that the analytics sender selects to be part of this object.",
+          "fields" : [ {
+            "name" : "traceId",
+            "type" : [ "null", {
+              "type" : "string",
+              "avro.java.string" : "String"
+            } ],
+            "doc" : "Money Trace Identifier. The unique identifier of a Money Trace (i.e. the top-level object in Money). All the Spans related to the Trace hold this same UUID. It corresponds to the Money trace-id.",
+            "default" : null
+          }, {
+            "name" : "spanId",
+            "type" : [ "null", "long" ],
+            "doc" : "Money Span Identifier. The identifier of the Span (i.e. one step of the Money Trace). It is a random signed long that represents a unique id for the current Span. It corresponds to the Money span-id.",
+            "default" : null
+          }, {
+            "name" : "parentSpanId",
+            "type" : [ "null", "long" ],
+            "doc" : "Money Parent Span Identifier. Signed long that represents the direct upstream Span of the current Span. It corresponds to the Money parent-id.",
+            "default" : null
+          }, {
+            "name" : "spanName",
+            "type" : [ "null", {
+              "type" : "string",
+              "avro.java.string" : "String"
+            } ],
+            "doc" : "A logical, operator-readable name for a span. Something like CAM.isPlayable, for CAM's isPlayable call, for instance.",
+            "default" : null
+          }, {
+            "name" : "appName",
+            "type" : [ "null", {
+              "type" : "string",
+              "avro.java.string" : "String"
+            } ],
+            "doc" : "The name of the application that is using money",
+            "default" : null
+          }, {
+            "name" : "startTime",
+            "type" : [ "null", "long" ],
+            "doc" : "A UTC time stamp in microseconds when the trace started since Unix epoch (January 1, 1970 midnight)",
+            "default" : null
+          }, {
+            "name" : "spanDuration",
+            "type" : [ "null", "long" ],
+            "doc" : "Duration of the span, in microseconds.",
+            "default" : null
+          }, {
+            "name" : "spanSuccess",
+            "type" : [ "null", "boolean" ],
+            "doc" : "False if the span experienced an error, true otherwise.",
+            "default" : null
+          }, {
+            "name" : "notes",
+            "type" : {
+              "type" : "map",
+              "values" : {
+                "type" : "string",
+                "avro.java.string" : "String"
+              },
+              "avro.java.string" : "String"
+            },
+            "doc" : "Notes is a map of string:string and will allow additional money fields. For example, a map could resemble: {host:localhost, clusterId:CH2-Spark}.",
+            "default" : { }
+          } ]
+        } ],
+        "doc" : "Money trace information not redundant with this object",
+        "default" : null
+      } ]
+    } ],
+    "doc" : "Core data information required for any event",
+    "default" : null
+  }, {
+    "name" : "partner",
+    "type" : [ "null", {
+      "type" : "string",
+      "avro.java.string" : "String"
+    } ],
+    "doc" : "Name of the partner to which the data is related.",
+    "default" : null
+  }, {
+    "name" : "eventTimestamp",
+    "type" : [ "null", "long" ],
+    "doc" : "Unix time stamp (in milliseconds since epoch (UTC)) for when the event was created.",
+    "default" : null
+  }, {
+    "name" : "description",
+    "type" : [ "null", {
+      "type" : "string",
+      "avro.java.string" : "String"
+    } ],
+    "doc" : "Event Type: Schedule Update or Initialization.",
+    "default" : null
+  }, {
+    "name" : "device",
+    "type" : [ "null", {
+      "type" : "record",
+      "name" : "DeviceInfo",
+      "namespace" : "headwaters.watermark.core",
+      "doc" : "Provides information about the device that generated this event",
+      "fields" : [ {
+        "name" : "receiverId",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Unique device ID provided by XBO.",
+        "default" : null,
+        "businessLogic" : "This field should always be populated."
+      }, {
+        "name" : "deviceId",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Device identifier uniquely generated by the reporting device",
+        "default" : null
+      }, {
+        "name" : "deviceSourceId",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Device identifier provided by partners to XBO",
+        "default" : null
+      }, {
+        "name" : "account",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Account associated to the device based on the XCAL device id",
+        "default" : null
+      }, {
+        "name" : "accountSourceId",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Account identifier provided by partners to XBO",
+        "default" : null
+      }, {
+        "name" : "billingAccountId",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Billing Account identifier provided by partners to XBO. Note this field is encrypted.",
+        "default" : null
+      }, {
+        "name" : "macAddress",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "The MAC address of the device that generated this event.",
+        "default" : null,
+        "businessLogic" : "This field should always be populated."
+      }, {
+        "name" : "ecmMacAddress",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "ECM (embedded cable modem) MAC address for the set-top box.",
+        "default" : null,
+        "businessLogic" : "This field will be populated if the partner has made the eCM MAC address for the set-top box available to Comcast."
+      }, {
+        "name" : "firmwareVersion",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Device firmware version.",
+        "default" : null,
+        "businessLogic" : "This field should always be populated."
+      }, {
+        "name" : "deviceType",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "The device type of this device as stored in XBO.",
+        "default" : null
+      }, {
+        "name" : "make",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Device make",
+        "default" : null
+      }, {
+        "name" : "model",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Device model",
+        "default" : null
+      }, {
+        "name" : "partner",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Name of the partner to which the data is related.",
+        "default" : null,
+        "businessLogic" : "This field should always be populated."
+      }, {
+        "name" : "ipAddress",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "The IP address of the originator of the HTTP request",
+        "default" : null
+      }, {
+        "name" : "utcOffset",
+        "type" : [ "null", "int" ],
+        "doc" : "UTC offset of the device that generated this tune event (typically anywhere from -8 to -4 in the contiguous United States)",
+        "default" : null
+      }, {
+        "name" : "postalCode",
+        "type" : [ "null", {
+          "type" : "string",
+          "avro.java.string" : "String"
+        } ],
+        "doc" : "Postal/Zip code for the account associated with this device",
+        "default" : null
+      } ]
+    } ],
+    "doc" : "Contains identifiers for the device and account associated with this transaction.",
+    "default" : null
+  }, {
+    "name" : "fullSchedule",
+    "type" : [ "null", {
+      "type" : "string",
+      "avro.java.string" : "String"
+    } ],
+    "doc" : "Series or one-time recording.",
+    "default" : null
+  }, {
+    "name" : "recordings",
+    "type" : {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "Recording",
+        "doc" : "Encapsulates a single recording entry",
+        "fields" : [ {
+          "name" : "recordingId",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Unique identifier for each recording",
+          "default" : null
+        }, {
+          "name" : "accountId",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Account ID for the account the recording was scheduled on",
+          "default" : null
+        }, {
+          "name" : "accountSourceId",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Account identifier provided by partners to XBO",
+          "default" : null
+        }, {
+          "name" : "deviceId",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Device identifier uniquely generated by the reporting device",
+          "default" : null
+        }, {
+          "name" : "deviceSourceId",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Device identifier provided by partners to XBO",
+          "default" : null
+        }, {
+          "name" : "title",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Recorded Asset Title.",
+          "default" : null
+        }, {
+          "name" : "cloudRecording",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Indicates whether this is a cloud or local recording",
+          "default" : null
+        }, {
+          "name" : "startTime",
+          "type" : [ "null", "long" ],
+          "doc" : "Unix time stamp (in milliseconds since epoch (UTC)) when recording started or when it is expected to start.",
+          "default" : null
+        }, {
+          "name" : "duration",
+          "type" : [ "null", "long" ],
+          "doc" : "Recording duration in seconds.",
+          "default" : null
+        }, {
+          "name" : "listingId",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Recorded Asset Listing ID.",
+          "default" : null
+        }, {
+          "name" : "stationId",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Recorded Asset Station ID.",
+          "default" : null
+        }, {
+          "name" : "seriesId",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Recorded Asset Series ID.",
+          "default" : null
+        }, {
+          "name" : "entityId",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Recorded Asset Entity ID.",
+          "default" : null
+        }, {
+          "name" : "programId",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Recorded Asset Program ID.",
+          "default" : null
+        }, {
+          "name" : "channelId",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Channel ID of channel recorded.",
+          "default" : null
+        }, {
+          "name" : "channelNumber",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Number of channel recorded.",
+          "default" : null
+        }, {
+          "name" : "status",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Current status of the recording (Complete, failed, started etc.).",
+          "default" : null
+        }, {
+          "name" : "error",
+          "type" : [ "null", {
+            "type" : "string",
+            "avro.java.string" : "String"
+          } ],
+          "doc" : "Scheduling Error encountered.",
+          "default" : null
+        } ]
+      }
+    },
+    "doc" : "List of recordings aggregated in this event",
+    "default" : [ ]
+  } ]
+}
